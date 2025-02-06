@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const Blog = require("./models/blog");
 const app = express();
 app.set("view engine", "ejs");
 // app.set('views','pages'); -> this can change the default path views to some other
@@ -15,7 +16,56 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
+// moongose and mongo sanbox routes
 
+// app.get("/add-blog", (req, res) => {
+//   const blog = new Blog({
+//     title: "new blog",
+//     snippet: "about my new blog",
+//     body: "test testtesttest tetet",
+//   });
+
+//   blog
+//     .save()
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// app.get("/all-blogs", (req, res) => {
+//   Blog.find()
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// app.get("/single-blog", (req, res) => {
+//   Blog.findById('67a4cf41722b08a60b38fb06')
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// printing data in views
+
+app.get("/blogs", (req, res) => {
+  Blog.find()
+    .then((result) => {
+      res.render("about", { title:'Blogs', blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = `mongodb+srv://kishore:Kishore123@learnnode.6gauv.mongodb.net/?retryWrites=true&w=majority&appName=learnnode`;
@@ -42,7 +92,6 @@ mongoose
 //   }
 // }
 // run().catch(console.dir);
-
 
 // app.get("/", (req, res) => {
 //   res.send("<p>this is dummy text </p>");
